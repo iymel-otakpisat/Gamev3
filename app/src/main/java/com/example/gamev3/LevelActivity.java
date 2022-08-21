@@ -21,7 +21,7 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
 
    GameView getGameView() {
        Random random = new Random();
-       int x = random.nextInt(2);
+       int x = 0;//random.nextInt(2);
        GameView[] lvls = {new Level0GameView(this), new Level1GameView(this)};
 
        return lvls[x];
@@ -72,8 +72,25 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
         Button continuation = findViewById(R.id.button_continue_shop);
         continuation.setOnClickListener(v -> {
             Intent myIntent = new Intent(LevelActivity.this, ShopActivity.class);
-            System.out.println("lvl3");
             LevelActivity.this.startActivity(myIntent);
+        });
+    }
+
+    public void lostLevel() {
+        View.OnTouchListener none = (v, event) -> false;
+        buttonUp.setOnTouchListener(none);
+        buttonLeft.setOnTouchListener(none);
+        buttonRight.setOnTouchListener(none);
+
+        ViewGroup.LayoutParams lp2 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        View secondLayerView2 = LayoutInflater.from(this).inflate(R.layout.activity_level_gameover, null, false);
+        addContentView(secondLayerView2, lp2);
+        Button backHome = findViewById(R.id.button_back_home);
+        backHome.setOnClickListener(v -> {
+            level.stopRunning();
+            Intent myIntent = new Intent(LevelActivity.this, MainActivity.class);
+            LevelActivity.this.startActivity(myIntent);
+
         });
     }
 

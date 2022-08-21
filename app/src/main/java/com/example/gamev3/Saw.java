@@ -1,5 +1,38 @@
 package com.example.gamev3;
 
-public class Saw {
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.RectF;
 
+public class Saw {
+    final float x;
+    final float y;
+    final float width;
+    final float height;
+    final float radius;
+    final Paint paint;
+    final Path path;
+
+    public Saw(float x, float y, float radius, float width, float height) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.radius = radius;
+        paint = new Paint();
+        path = new Path();
+    }
+
+    public void draw(Canvas canvas, float height, float width, float cameraViewX, float cameraViewY) {
+
+        float center_x, center_y;
+        center_x = x;
+        center_y = y;
+
+        final RectF oval = new RectF();
+        oval.set((float) ((center_x - radius) * width), (center_y - radius) * width, (center_x + radius) * width, (center_y + radius) * width);
+        canvas.drawArc(oval, 180, 180, true, paint);
+
+    }
 }

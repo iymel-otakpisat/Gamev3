@@ -35,12 +35,14 @@ public abstract class GameView extends SurfaceView implements Runnable {
     final double cameraAngleY = 0.8;
     ArrayList<Platform> platforms;
     ArrayList<Spike> spikes;
+    ArrayList<Saw> saws;
     volatile double canvasHeight = 0, canvasWidth = 0;
     final int FPS = 40;
     final SurfaceHolder holder;
     Finish finish;
     boolean running = true;
     boolean finished = false;
+    boolean lost = false;
     final Drawable finishImage;
     final Drawable finishDoorImage;
 
@@ -48,7 +50,7 @@ public abstract class GameView extends SurfaceView implements Runnable {
         super(context);
         this.context = context;
 
-        score = 100;
+        score = 1000;
 
         finishImage = ContextCompat.getDrawable(this.context, R.drawable.finish);
         finishDoorImage = ContextCompat.getDrawable(this.context, R.drawable.only_door);
@@ -77,6 +79,7 @@ public abstract class GameView extends SurfaceView implements Runnable {
         canvasWidth = getWidth();
         running = true;
         finished = false;
+        lost = false;
         direction = 0;
         goJump = false;
     }
@@ -122,6 +125,8 @@ public abstract class GameView extends SurfaceView implements Runnable {
             Runnable myRunnable = levelActivity::completeLevel;
             mainHandler.post(myRunnable);
         }
+
+
     }
 
     public void stopRunning() {
@@ -152,6 +157,9 @@ public abstract class GameView extends SurfaceView implements Runnable {
             }
             for (Spike spike : spikes) {
                 spike.draw(canvas, (float) canvasHeight, (float) canvasWidth, (float) cameraViewX, (float) cameraViewY);
+            }
+            for (Saw saw : saws) {
+                saw.draw(canvas, (float) canvasHeight, (float) canvasWidth, (float) cameraViewX, (float) cameraViewY);
             }
             holder.unlockCanvasAndPost(canvas);
 

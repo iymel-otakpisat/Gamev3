@@ -25,10 +25,10 @@ public class Spike {
 
         path.moveTo(x, y);
 
-        path.lineTo((x - this.width / 2) * width, y * height);
-        path.lineTo((x + this.width / 2) * width, (y + this.height) * height);
-        path.lineTo((x + this.width / 2) * width, y * height);
-        path.lineTo((x - this.width / 2) * width, y * height);
+        path.lineTo((x - this.width / 4  - cameraViewX) * width, (y - cameraViewY) * height);
+        path.lineTo((x + this.width / 32 - cameraViewX) * width, (y - this.height * 4 - cameraViewY) * height);
+        path.lineTo((x + this.width / 4 - cameraViewX) * width, (y - cameraViewY) * height);
+        path.lineTo((x - this.width / 4 - cameraViewX) * width, (y - cameraViewY) * height);
 
         canvas.drawPath(path, paint);
 

@@ -32,15 +32,17 @@ public class Level0GameView extends GameView {
         platforms.add(new Platform(0.85, 0.2, 0.1, platformSizeY));
         platforms.add(new Platform(1.15, 0.2, 0.1, platformSizeY));
 
-        finish = Finish.from_bottom_part(1.15, 0.2, canvasWidth, canvasHeight, finishImage, finishDoorImage);
-
         platforms.add(new Platform(1. / 2, 0.9, 15, platformSizeY));
         platforms.add(new Platform(-0.3, 0, platformSizeX, 1.8));
         platforms.add(new Platform(1.3, 0, platformSizeX, 1.8));
 
         spikes = new ArrayList<>();
-        spikes.add(new Spike((float) 0.4, (float) 0.4, (float) 0.1, (float) platformSizeY));
+        spikes.add(new Spike((float) 0.2, (float) 0.6, (float) 0.1, (float) platformSizeY));
+
+        saws = new ArrayList<>();
+        saws.add(new Saw((float) 0.8, (float) 0.15,(float)0.02, (float) 0.1, (float) platformSizeY));
 
 
+        finish = Finish.from_bottom_part(1.15, 0.2, canvasWidth, canvasHeight, finishImage, finishDoorImage);
     }
 }
