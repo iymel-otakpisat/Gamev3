@@ -36,6 +36,10 @@ public class Level1GameView extends GameView {
         platforms.add(new Platform(1. / 2, 0.9, 15, platformSizeY));
         platforms.add(new Platform(-1, 0, platformSizeX, 1.8));
         platforms.add(new Platform(4, 0, platformSizeX, 1.8));
+
+        spikes = new ArrayList<>();
+        spikes.add(new Spike((float) 0.4, (float) 0.4, (float) 0.1, (float) platformSizeY));
+
         finish = Finish.from_bottom_part(3.1, 0.2, canvasWidth, canvasHeight, finishImage, finishDoorImage);
 
     }
