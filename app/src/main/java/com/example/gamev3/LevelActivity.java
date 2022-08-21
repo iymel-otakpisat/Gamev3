@@ -1,0 +1,106 @@
+package com.example.gamev3;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+
+import java.util.Random;
+
+public class LevelActivity extends AppCompatActivity implements View.OnTouchListener {
+    private GameView level;
+
+    DirectionButton buttonUp;
+    DirectionButton buttonLeft;
+    DirectionButton buttonRight;
+
+   GameView getGameView() {
+       Random random = new Random();
+       int x = random.nextInt(2);
+       GameView[] lvls = {new Level0GameView(this), new Level1GameView(this)};
+
+       return lvls[x];
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        level = getGameView();
+
+        super.onCreate(savedInstanceState);
+
+        startLevel();
+    }
+
+    private void startLevel() {
+
+        setContentView(level);
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        View secondLayerView = LayoutInflater.from(this).inflate(R.layout.activity_level, null, false);
+        addContentView(secondLayerView, lp);
+
+        buttonUp = findViewById(R.id.buttonUp);
+        buttonLeft = findViewById(R.id.buttonLeft);
+        buttonRight = findViewById(R.id.buttonRight);
+
+        buttonUp.setOnTouchListener(this);
+        buttonLeft.setOnTouchListener(this);
+        buttonRight.setOnTouchListener(this);
+
+    }
+
+    public void completeLevel() {
+        View.OnTouchListener none = (v, event) -> false;
+        buttonUp.setOnTouchListener(none);
+        buttonLeft.setOnTouchListener(none);
+        buttonRight.setOnTouchListener(none);
+
+        ViewGroup.LayoutParams lp2 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        View secondLayerView2 = LayoutInflater.from(this).inflate(R.layout.activity_level_complete, null, false);
+        addContentView(secondLayerView2, lp2);
+        Button backHome = findViewById(R.id.button_back_home);
+        backHome.setOnClickListener(v -> {
+            level.stopRunning();
+            Intent myIntent = new Intent(LevelActivity.this, MainActivity.class);
+            LevelActivity.this.startActivity(myIntent);
+
+        });
+        Button continuation = findViewById(R.id.button_continue_shop);
+        continuation.setOnClickListener(v -> {
+            Intent myIntent = new Intent(LevelActivity.this, ShopActivity.class);
+            System.out.println("lvl3");
+            LevelActivity.this.startActivity(myIntent);
+        });
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (v == buttonUp) {
+                System.out.println("up pressed");
+                level.jump();
+            }
+            if (v == buttonLeft) {
+                level.setDirection(3);
+                System.out.println("left pressed");
+
+            }
+            if (v == buttonRight) {
+                System.out.println("right pressed");
+
+                level.setDirection(4);
+            }
+        } else if (event.getAction() == MotionEvent.ACTION_UP && v != buttonUp) {
+            level.setDirection(0);
+            System.out.println("unpressed");
+
+            return v.performClick();
+        }
+        return true;
+    }
+
+}
