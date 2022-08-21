@@ -147,8 +147,6 @@ public abstract class GameView extends SurfaceView implements Runnable {
             paint.setColor(Color.BLACK);
             canvas.drawText("Очки: " + score, 10, 25,paint);
 
-            System.out.println("asdasdasdasd");
-
             for (Platform platform : platforms) {
                 platform.draw(canvas, canvasHeight, canvasWidth, cameraViewX, cameraViewY);
             }
