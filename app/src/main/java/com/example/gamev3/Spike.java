@@ -12,7 +12,7 @@ public class Spike {
     final Paint paint;
     final Path path;
 
-    public Spike(float x, float y, float width, float height){
+    public Spike(float x, float y, float width, float height) {
         this.x = x;
         this.y = y;
         this.width = width;
