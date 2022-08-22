@@ -20,8 +20,6 @@ public class Platform {
 
     public void draw(Canvas canvas, double height, double width, double cameraViewX, double cameraViewY) {
 
-        Path path = new Path();
-
         canvas.drawRect(
                 (float) ((x - this.width / 2 - cameraViewX) * width),
                 (float) ((y - this.height / 2 - cameraViewY) * height),

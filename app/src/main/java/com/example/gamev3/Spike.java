@@ -23,6 +23,8 @@ public class Spike {
 
     public void draw(Canvas canvas, float height, float width, float cameraViewX, float cameraViewY) {
 
+        path.reset();
+
         path.moveTo(x, y);
 
         path.lineTo((x - this.width / 4  - cameraViewX) * width, (y - cameraViewY) * height);
