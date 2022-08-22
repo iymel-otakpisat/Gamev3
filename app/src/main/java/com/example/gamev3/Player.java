@@ -87,10 +87,27 @@ public class Player {
         }
         x += speedx;
         y += speedy;
-
     }
 
-    public void jump(ArrayList<Platform> platforms) {
+    public void death(ArrayList<Spike> Spikes) {
+
+        for (Spike s : Spikes) {
+            if(s.x - s.width / 2 <= x + width / 2 &&
+                    s.y + s.height / 2 >= y &&
+                    s.y < y &&
+                    s.x + s.width / 2 >= x - width / 2) {
+
+            }
+            if(s.x - s.width / 4 <= x + width / 2 &&
+                    s.y + s.height >= y &&
+                    s.y + s.height <= y &&
+                    s.x + s.width / 4 >= x - width / 2){
+
+            }
+        }
+    }
+
+        public void jump(ArrayList<Platform> platforms) {
         for (Platform p: platforms) {
             if (p.x - p.width / 2 < x + width / 2 &&
                     x - width / 2 < p.x + p.width / 2 &&

@@ -35,4 +35,5 @@ public class Spike {
         canvas.drawPath(path, paint);
 
     }
+
 }

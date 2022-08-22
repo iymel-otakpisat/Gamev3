@@ -18,6 +18,7 @@ public abstract class Body {
         paint = new Paint();
 
     }
+
     public boolean touched(Player p) {
         return Math.abs(p.x - x) <= width / 2 + p.width / 2 && Math.abs(p.y - y) <= height / 2 + p.height;
     }
