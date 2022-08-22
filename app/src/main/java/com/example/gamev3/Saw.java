@@ -31,7 +31,7 @@ public class Saw {
         center_y = y;
 
         final RectF oval = new RectF();
-        oval.set((float) ((center_x - radius - cameraViewX) * width), (center_y - radius) * width, (center_x + radius - cameraViewX) * width, (center_y + radius) * width);
+        oval.set((float) ((center_x - radius - cameraViewX) * width), (center_y - radius - cameraViewY) * width, (center_x + radius - cameraViewX) * width, (center_y + radius - cameraViewY) * width);
         canvas.drawArc(oval, 180, 180, true, paint);
 
     }
