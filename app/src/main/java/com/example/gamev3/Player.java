@@ -104,6 +104,7 @@ public class Player {
                     s.x + s.width / 4 >= x - width / 2){
 
             }
+
         }
     }
 
