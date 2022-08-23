@@ -27,20 +27,31 @@ public abstract class Body {
 
     public boolean touchspike(Player p) {
 
-        if(p.x - p.width / 2 <= x + width / 2 &&
-                p.y + p.height / 2 >= y &&
-                p.y < y &&
-                p.x + p.width / 2 >= x - width / 2) {
+        if(x - width / 2 <= x + width / 2 &&
+                y + height / 2 >= p.y &&
+                y < p.y &&
+                x + width / 2 >= p.x - p.width / 2) {
             return true;
         }
-        if(p.x - p.width / 4 <= x + width / 2 &&
-                p.y + p.height >= y &&
-                p.y + p.height <= y &&
-                p.x + p.width / 4 >= x - width / 2){
+        if(x - width / 4 <= p.x + p.width / 2 &&
+                y + height >= p.y &&
+                y + height <= p.y &&
+                x + width / 4 >= p.x - p.width / 2){
             return true;
         }
         return false;
     }
+
+//            if(p.x - p.width / 2 <= x + width / 2 &&
+//    p.y + p.height / 2 >= y &&
+//    p.y < y &&
+//    p.x + p.width / 2 >= x - width / 2) {
+//        return true;
+//    }
+//        if(p.x - p.width / 4 <= x + width / 2 &&
+//    p.y + p.height >= y &&
+//    p.y + p.height <= y &&
+//    p.x + p.width / 4 >= x - width / 2){
 
     public abstract void draw(Canvas canvas, double height, double width, double cameraViewX, double cameraViewY);
 }
