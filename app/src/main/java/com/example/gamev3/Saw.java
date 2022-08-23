@@ -10,16 +10,14 @@ public class Saw {
     final float y;
     final float width;
     final float height;
-    final float radius;
     final Paint paint;
     final Path path;
 
-    public Saw(float x, float y, float radius, float width, float height) {
+    public Saw(float x, float y, float width, float height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.radius = radius;
         paint = new Paint();
         path = new Path();
     }
@@ -31,7 +29,10 @@ public class Saw {
         center_y = y;
 
         final RectF oval = new RectF();
-        oval.set((float) ((center_x - radius - cameraViewX) * width), (center_y - radius - cameraViewY) * width, (center_x + radius - cameraViewX) * width, (center_y + radius - cameraViewY) * width);
+        oval.set((center_x - this.width / 2 - cameraViewX) * width,
+                    (center_y + this.height - cameraViewY) * height,
+                    (center_x + this.width / 2 - cameraViewX) * width,
+                    (center_y - cameraViewY) * height);
         canvas.drawArc(oval, 180, 180, true, paint);
 
     }

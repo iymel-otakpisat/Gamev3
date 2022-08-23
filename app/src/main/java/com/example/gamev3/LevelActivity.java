@@ -3,12 +3,14 @@ package com.example.gamev3;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -19,12 +21,12 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
     DirectionButton buttonLeft;
     DirectionButton buttonRight;
 
-   GameView getGameView() {
-       Random random = new Random();
-       int x = 0;//random.nextInt(2);
-       GameView[] lvls = {new Level0GameView(this), new Level1GameView(this)};
+    GameView getGameView() {
+        Random random = new Random();
+        int x = 0;//random.nextInt(2);
+        GameView[] lvls = {new Level0GameView(this), new Level1GameView(this)};
 
-       return lvls[x];
+        return lvls[x];
     }
 
     @Override
@@ -53,26 +55,35 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
 
     }
 
-    public void completeLevel() {
+    public void completeLevel(int score) {
         View.OnTouchListener none = (v, event) -> false;
         buttonUp.setOnTouchListener(none);
         buttonLeft.setOnTouchListener(none);
         buttonRight.setOnTouchListener(none);
 
+        SharedPreferences sp = getSharedPreferences("MyPref", MODE_PRIVATE);
+        GameProgress gp = GameProgress.fromPref(sp);
+        gp.score += score;
+        gp.levelCompleted += 1;
+        gp.save(sp);
+
         ViewGroup.LayoutParams lp2 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         View secondLayerView2 = LayoutInflater.from(this).inflate(R.layout.activity_level_complete, null, false);
         addContentView(secondLayerView2, lp2);
         Button backHome = findViewById(R.id.button_back_home);
+
         backHome.setOnClickListener(v -> {
             level.stopRunning();
             Intent myIntent = new Intent(LevelActivity.this, MainActivity.class);
             LevelActivity.this.startActivity(myIntent);
+            finish();
 
         });
         Button continuation = findViewById(R.id.button_continue_shop);
         continuation.setOnClickListener(v -> {
             Intent myIntent = new Intent(LevelActivity.this, ShopActivity.class);
             LevelActivity.this.startActivity(myIntent);
+            finish();
         });
     }
 
@@ -82,6 +93,16 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
         buttonLeft.setOnTouchListener(none);
         buttonRight.setOnTouchListener(none);
 
+        SharedPreferences sp = getSharedPreferences("MyPref", MODE_PRIVATE);
+        GameProgress gp = GameProgress.fromPref(sp);
+        gp.gameInProgress = false;
+        gp.save(sp);
+
+
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Игра завершена! Финальный счёт: " + gp.score, Toast.LENGTH_SHORT);
+        toast.show();
+
         ViewGroup.LayoutParams lp2 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         View secondLayerView2 = LayoutInflater.from(this).inflate(R.layout.activity_level_gameover, null, false);
         addContentView(secondLayerView2, lp2);
@@ -90,7 +111,7 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
             level.stopRunning();
             Intent myIntent = new Intent(LevelActivity.this, MainActivity.class);
             LevelActivity.this.startActivity(myIntent);
-
+            finish();
         });
     }
 

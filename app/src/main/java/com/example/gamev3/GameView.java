@@ -87,7 +87,7 @@ public abstract class GameView extends SurfaceView implements Runnable {
     abstract public void setup();
 
     public void update() {
-        if (score > 0){
+        if (score > 0 && !finished && !lost) {
             score--;
         }
 
@@ -122,17 +122,18 @@ public abstract class GameView extends SurfaceView implements Runnable {
             Handler mainHandler = new Handler(Looper.getMainLooper());
 
             LevelActivity levelActivity = (LevelActivity) this.context;
-            Runnable myRunnable = levelActivity::completeLevel;
+            Runnable myRunnable = () -> levelActivity.completeLevel(score);
             mainHandler.post(myRunnable);
         }
-        for (Spike spike : spikes)
-            if (spike.touched(player)){
-                lost = true;
-                Handler mainHandler = new Handler(Looper.getMainLooper());
-
-                LevelActivity levelActivity = (LevelActivity) this.context;
-                Runnable myRunnable = levelActivity::lostLevel;
-                mainHandler.post(myRunnable);
+        if (!lost) {
+            for (Spike spike : spikes)
+                if (spike.touched(player)){
+                    lost = true;
+                    Handler mainHandler = new Handler(Looper.getMainLooper());
+                    LevelActivity levelActivity = (LevelActivity) this.context;
+                    Runnable myRunnable = levelActivity::lostLevel;
+                    mainHandler.post(myRunnable);
+                }
         }
 
     }
