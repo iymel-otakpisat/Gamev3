@@ -59,6 +59,9 @@ public abstract class GameView extends SurfaceView implements Runnable {
         finishImage = ContextCompat.getDrawable(this.context, R.drawable.finish);
         finishDoorImage = ContextCompat.getDrawable(this.context, R.drawable.only_door);
 
+        jumpsound1 = MediaPlayer.create(context,R.raw.jump1);
+
+
         holder = getHolder();
 
         thread = new Thread(this);
@@ -99,8 +102,7 @@ public abstract class GameView extends SurfaceView implements Runnable {
             if (goJump) {
                 player.jump(platforms);
                 goJump = false;
-                if
-                jumpsound1 = MediaPlayer.create(context,R.raw.jump1);
+                jumpsound1.start();
             }
             if (direction == 2) {
                 player.accelerate(0, 0.002);
@@ -111,6 +113,9 @@ public abstract class GameView extends SurfaceView implements Runnable {
             if (direction == 4) {
                 player.accelerate(0.001, 0);
             }
+        }
+        for (Saw saw : saws) {
+            saw.update();
         }
         if (player.getX() - cameraViewX > 0.5 + cameraAngleX / 2) {
             cameraViewX = player.getX() - (0.5 + cameraAngleX / 2);
@@ -141,15 +146,15 @@ public abstract class GameView extends SurfaceView implements Runnable {
                     mainHandler.post(myRunnable);
                 }
             }
-            for (Saw saw : saws) {
-                if (saw.touched(player)) {
-                    lost = true;
-                    Handler mainHandler = new Handler(Looper.getMainLooper());
-                    LevelActivity levelActivity = (LevelActivity) this.context;
-                    Runnable myRunnable = levelActivity::lostLevel;
-                    mainHandler.post(myRunnable);
-                }
-            }
+            //for (Saw saw : saws) {
+            //    if (saw.touched(player)) {
+            //        lost = true;
+            //       Handler mainHandler = new Handler(Looper.getMainLooper());
+            //        LevelActivity levelActivity = (LevelActivity) this.context;
+            //        Runnable myRunnable = levelActivity::lostLevel;
+            //        mainHandler.post(myRunnable);
+            //    }
+            //}
         }
 
     }

@@ -41,7 +41,9 @@ public class Level1GameView extends GameView {
         spikes.add(new Spike((float) 0.4, (float) 0.2, (float) 0.1, (float) platformSizeY));
 
         saws = new ArrayList<>();
-        saws.add(new Saw((float) 0.4, (float) 0.4, (float) 0.1, (float) platformSizeY));
+        double sawHeight = 0.1;
+        double sawWidth = sawHeight * canvasHeight / canvasWidth;
+        saws.add(new Saw((float) 0.4, (float) 0.4, sawWidth, sawHeight, 0.05, 1));
 
 
         finish = Finish.from_bottom_part(3.1, 0.2, canvasWidth, canvasHeight, finishImage, finishDoorImage);
