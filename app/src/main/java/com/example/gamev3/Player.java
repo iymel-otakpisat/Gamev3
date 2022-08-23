@@ -89,25 +89,7 @@ public class Player {
         y += speedy;
     }
 
-    //public boolean touchspike(ArrayList<Spike> Spikes) {
 
-    //    for (Spike s : Spikes) {
-    //        if(s.x - s.width / 2 <= x + width / 2 &&
-    //                s.y + s.height / 2 >= y &&
-    //                s.y < y &&
-    //                s.x + s.width / 2 >= x - width / 2) {
-    //            return true;
-    //        }
-    //       if(s.x - s.width / 4 <= x + width / 2 &&
-    //                s.y + s.height >= y &&
-    //                s.y + s.height <= y &&
-    //                s.x + s.width / 4 >= x - width / 2){
-    //            return true;
-    //        }
-
-    //    }
-    //    return false;
-    //}
 
         public void jump(ArrayList<Platform> platforms) {
         for (Platform p: platforms) {

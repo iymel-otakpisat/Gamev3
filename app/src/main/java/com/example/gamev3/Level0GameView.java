@@ -37,7 +37,7 @@ public class Level0GameView extends GameView {
         platforms.add(new Platform(1.3, 0, platformSizeX, 1.8));
 
         spikes = new ArrayList<>();
-        spikes.add(new Spike((float) 0.2, (float) 0.6, (float) 0.1, (float) platformSizeY));
+        spikes.add(new Spike((float) 0.1, (float) 0.6, (float) 0.05, (float) 0.05));
 
         saws = new ArrayList<>();
         double sawHeight = 0.1;
