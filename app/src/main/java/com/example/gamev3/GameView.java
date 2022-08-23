@@ -5,11 +5,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.ViewTreeObserver;
+import android.media.MediaPlayer;
 
 import androidx.core.content.ContextCompat;
 
@@ -45,6 +47,8 @@ public abstract class GameView extends SurfaceView implements Runnable {
     boolean lost = false;
     final Drawable finishImage;
     final Drawable finishDoorImage;
+
+    MediaPlayer jumpsound1;
 
     public GameView(Context context) {
         super(context);
@@ -95,6 +99,8 @@ public abstract class GameView extends SurfaceView implements Runnable {
             if (goJump) {
                 player.jump(platforms);
                 goJump = false;
+                if
+                jumpsound1 = MediaPlayer.create(context,R.raw.jump1);
             }
             if (direction == 2) {
                 player.accelerate(0, 0.002);
