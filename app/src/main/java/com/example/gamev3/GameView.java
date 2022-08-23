@@ -126,14 +126,24 @@ public abstract class GameView extends SurfaceView implements Runnable {
             mainHandler.post(myRunnable);
         }
         if (!lost) {
-            for (Spike spike : spikes)
-                if (spike.touched(player)){
+            for (Spike spike : spikes) {
+                if (spike.touched(player)) {
                     lost = true;
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     LevelActivity levelActivity = (LevelActivity) this.context;
                     Runnable myRunnable = levelActivity::lostLevel;
                     mainHandler.post(myRunnable);
                 }
+            }
+            for (Saw saw : saws) {
+                if (saw.touched(player)) {
+                    lost = true;
+                    Handler mainHandler = new Handler(Looper.getMainLooper());
+                    LevelActivity levelActivity = (LevelActivity) this.context;
+                    Runnable myRunnable = levelActivity::lostLevel;
+                    mainHandler.post(myRunnable);
+                }
+            }
         }
 
     }
