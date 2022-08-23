@@ -29,7 +29,7 @@ public class Spike extends Body{
         path.moveTo((float) x, (float) y);
 
         path.lineTo( (float) ((x - this.width / 2  - cameraViewX) * width),(float) ((y - cameraViewY) * height));
-        path.lineTo( (float) ((x + this.width / 16 - cameraViewX) * width), (float) ((y - this.height - cameraViewY) * height));
+        path.lineTo( (float) ((x - cameraViewX) * width), (float) ((y - this.height - cameraViewY) * height));
         path.lineTo( (float) ((x + this.width / 2 - cameraViewX) * width), (float) ((y - cameraViewY) * height));
         path.lineTo((float) ((x - this.width / 2 - cameraViewX) * width), (float) ((y - cameraViewY) * height));
 
