@@ -23,7 +23,7 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
 
     GameView getGameView() {
         Random random = new Random();
-        int x = 0;//random.nextInt(2);
+        int x = 1;//random.nextInt(2);
         GameView[] lvls = {new Level0GameView(this), new Level1GameView(this)};
 
         return lvls[x];

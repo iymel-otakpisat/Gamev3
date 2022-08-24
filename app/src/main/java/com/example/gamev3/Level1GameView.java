@@ -26,12 +26,15 @@ public class Level1GameView extends GameView {
         platforms = new ArrayList<>();
         platforms.add(new Platform(0.2, 0.6, 0.1, platformSizeY));
 
-        for (int i = 0; i < 3; ++i) {
-            platforms.add(new Platform(0.4 + i, 0.4, 0.1, platformSizeY));
-            platforms.add(new Platform(0.7 + i, 0.4, 0.1, platformSizeY));
-            platforms.add(new Platform(0.85 + i, 0.2, 0.1, platformSizeY));
-            platforms.add(new Platform(1.1 + i, 0.2, 0.1, platformSizeY));
-        }
+        platforms.add(new Platform(-0.05, 0.4, 0.15, platformSizeY));
+        platforms.add(new Platform(0.05, 0.2, 0.1, platformSizeY));
+        platforms.add(new Platform(0.2, 0.1, 0.2, platformSizeY));
+        platforms.add(new Platform(0.5, -0.1, 0.1, platformSizeY));
+
+        platforms.add(new Platform(0.4, 0.4, 0.1, platformSizeY));
+        platforms.add(new Platform(0.7, 0.4, 0.1, platformSizeY));
+        platforms.add(new Platform(0.85, 0.2, 0.1, platformSizeY));
+        platforms.add(new Platform(1.1, 0.2, 0.1, platformSizeY));
 
         platforms.add(new Platform(1. / 2, 0.9, 15, platformSizeY));
         platforms.add(new Platform(-1, 0, platformSizeX, 1.8));
@@ -44,10 +47,10 @@ public class Level1GameView extends GameView {
         double sawHeight = 0.1;
         double sawWidth = sawHeight * canvasHeight / canvasWidth;
         saws.add(new Saw((float) 0.4, (float) 0.4, sawWidth, sawHeight, 0.05, 1));
-        saws.add(new Saw((float) 0.4, (float) 0.4, sawWidth, sawHeight, 0.05, 1));
+        saws.add(new Saw((float) 0.8, (float) 0.7, sawWidth, sawHeight, 0.05, 1));
 
 
-        finish = Finish.from_bottom_part(3.1, 0.2, canvasWidth, canvasHeight, finishImage, finishDoorImage);
+        finish = Finish.from_bottom_part(2, 0.2, canvasWidth, canvasHeight, finishImage, finishDoorImage);
 
     }
 }
