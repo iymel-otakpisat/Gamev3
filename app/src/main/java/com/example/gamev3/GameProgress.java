@@ -29,10 +29,10 @@ public class GameProgress {
         this.dangerLevel = dangerLevel;
         this.graphicsLevel = graphicsLevel;
         this.soundLevel = soundLevel;
-        this.one = this.one;
-        this.two = this.two;
-        this.three = this.three;
-        this.four = this.four;
+        this.one = one;
+        this.two = two;
+        this.three = three;
+        this.four = four;
     }
 
 
