@@ -151,6 +151,35 @@ public class Player {
 
     }
 
+    public boolean touchspike(Spike spike) {
+
+        if(spike.x - spike.width / 2 <= x + width / 2 &&
+                spike.y + spike.height / 2 >= y &&
+                spike.y <= y &&
+                spike.x + spike.width / 2 >= x + width / 2) {
+            return true;
+        }
+        if(spike.x - spike.width / 4 <= x + width / 2 &&
+                spike.y + spike.height >= y &&
+                spike.y + spike.height / 2 <= y &&
+                spike.x + spike.width / 4 >= x + width / 2){
+            return true;
+        }
+        if(spike.x - spike.width / 2 <= x - width / 2 &&
+                spike.y + spike.height / 2 >= y &&
+                spike.y <= y &&
+                spike.x + spike.width / 2 >= x - width / 2) {
+            return true;
+        }
+        if(spike.x - spike.width / 4 <= x - width / 2 &&
+                spike.y + spike.height >= y &&
+                spike.y + spike.height / 2 <= y &&
+                spike.x + spike.width / 4 >= x - width / 2){
+            return true;
+        }
+        return false;
+    }
+
     public void jump(ArrayList<Platform> platforms) {
         for (Platform p : platforms) {
             if (p.x - p.width / 2 < x + width / 2 &&

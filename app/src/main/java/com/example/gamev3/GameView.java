@@ -136,8 +136,8 @@ public abstract class GameView extends SurfaceView implements Runnable {
             mainHandler.post(myRunnable);
         }
         if (!lost) {
-            for (Spike spike : spikes) {//spike.touched(player)
-                if (spike.touched(player)) {
+            for (Spike spike : spikes) {
+                if (player.touchspike(spike)) {
                     lost = true;
                     deathsound.start();
                     Handler mainHandler = new Handler(Looper.getMainLooper());
