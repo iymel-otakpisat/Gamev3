@@ -87,7 +87,14 @@ public abstract class GameView extends SurfaceView implements Runnable {
                 }
             });
         }
+        if (gp.levelCompleted == 5){
+            Handler mainHandler = new Handler(Looper.getMainLooper());
+            LevelActivity levelActivity = (LevelActivity) this.context;
+            Runnable myRunnable = levelActivity::maxlevelscomplete;
+            mainHandler.post(myRunnable);
+        }
     }
+
 
     protected void commonSetup() {
         cameraViewX = 0;

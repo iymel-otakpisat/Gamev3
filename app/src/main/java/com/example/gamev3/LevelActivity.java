@@ -45,7 +45,6 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
     }
 
     private void startLevel() {
-
         setContentView(level);
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         View secondLayerView = LayoutInflater.from(this).inflate(R.layout.activity_level, null, false);
@@ -121,6 +120,25 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
             LevelActivity.this.startActivity(myIntent);
             finish();
         });
+    }
+
+    public void maxlevelscomplete(){
+        SharedPreferences sp = getSharedPreferences("MyPref", MODE_PRIVATE);
+        GameProgress gp = GameProgress.fromPref(sp);
+        gp.gameInProgress = false;
+        gp.save(sp);
+
+        RecordHandler.updateScores(gp.score, sp);
+        RecordHandler.getRecords(sp);
+
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Вы прошли максимальное кол-во уровней! Финальный счёт: " + gp.score, Toast.LENGTH_SHORT);
+        toast.show();
+
+        level.stopRunning();
+        Intent myIntent = new Intent(LevelActivity.this, MainActivity.class);
+        LevelActivity.this.startActivity(myIntent);
+        finish();
     }
 
     @Override

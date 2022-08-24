@@ -40,23 +40,18 @@ public class ShopActivity  extends AppCompatActivity {
         //});
         Button sound = findViewById(R.id.sound_upgrade);
         sound.setOnClickListener(v -> {
-            //мб создать публичную переменную, а дальше через if
-            //тут надо будет хотя бы сделать звук прыжка(мб вообще уберу эту кнопку)
             ++gp.soundLevel;
             gp.save(sp);
             startLevel();
         });
         Button graphic = findViewById(R.id.graphic_upgrade);
         graphic.setOnClickListener(v -> {
-            //пока можно сделать тупо одно изменение графики(например: изначально финишь сделать прямоугольникам, а после то, что уже есть сейчас)
             ++gp.graphicsLevel;
             gp.save(sp);
             startLevel();
         });
         Button danger = findViewById(R.id.warning_upgrade);
         danger.setOnClickListener(v -> {
-            //добавление шипов
-            //добавление пил
             ++gp.dangerLevel;
             gp.save(sp);
             startLevel();
