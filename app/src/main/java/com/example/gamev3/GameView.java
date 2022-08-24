@@ -56,10 +56,10 @@ public abstract class GameView extends SurfaceView implements Runnable {
         gameProgress = gp;
         score = 1500;
         if (gameProgress.dangerLevel >= GameProgress.DANGER_LEVEL_FOR_SPIKES){
-            score = score + 500;
+            score = score * 2;
         }
         if (gameProgress.dangerLevel >= GameProgress.DANGER_LEVEL_FOR_SAWS) {
-            score = score + 1000;
+            score = score * 2;
         }
         random = new Random();
 
