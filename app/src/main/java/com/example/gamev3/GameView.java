@@ -55,6 +55,12 @@ public abstract class GameView extends SurfaceView implements Runnable {
         this.context = context;
         gameProgress = gp;
         score = 1500;
+        if (gameProgress.dangerLevel >= GameProgress.DANGER_LEVEL_FOR_SPIKES){
+            score = score + 500;
+        }
+        if (gameProgress.dangerLevel >= GameProgress.DANGER_LEVEL_FOR_SAWS) {
+            score = score + 1000;
+        }
         random = new Random();
 
         finishImage = ContextCompat.getDrawable(this.context, R.drawable.finish);
