@@ -17,6 +17,10 @@ public class GameProgress {
     public static final int DANGER_LEVEL_FOR_SPIKES = 1;
     public static final int DANGER_LEVEL_FOR_SAWS = 2;
 
+    public static final int GRAPHICS_LEVEL_FOR_SPIKES_IMAGES = 1;
+    public static final int GRAPHICS_LEVEL_FOR_SAWS_IMAGES = 1;
+
+
 
     GameProgress(boolean gameInProgress, int score, int levelCompleted, int dangerLevel, int graphicsLevel, int soundLevel) {
         this.gameInProgress = gameInProgress;

@@ -41,6 +41,8 @@ public abstract class GameView extends SurfaceView implements Runnable {
     boolean lost = false;
     final Drawable finishImage;
     final Drawable finishDoorImage;
+    final Drawable spikeImage;
+    final Drawable sawImage;
     GameProgress gameProgress;
     Random random;
 
@@ -57,6 +59,8 @@ public abstract class GameView extends SurfaceView implements Runnable {
 
         finishImage = ContextCompat.getDrawable(this.context, R.drawable.finish);
         finishDoorImage = ContextCompat.getDrawable(this.context, R.drawable.only_door);
+        spikeImage = ContextCompat.getDrawable(this.context, R.drawable.spike);
+        sawImage = ContextCompat.getDrawable(this.context, R.drawable.circular_saw);
 
         jumpsound1 = MediaPlayer.create(context, R.raw.jump1);
         jumpsound2 = MediaPlayer.create(context, R.raw.jump2);

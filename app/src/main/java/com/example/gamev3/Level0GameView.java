@@ -42,18 +42,20 @@ public class Level0GameView extends GameView {
         platforms.add(new Platform(2.3, 0, platformSizeX, 1.8));
 
         spikes = new ArrayList<>();
+        boolean drawImageSpikes = gameProgress.graphicsLevel >= GameProgress.DANGER_LEVEL_FOR_SPIKES;
         if (gameProgress.dangerLevel >= GameProgress.DANGER_LEVEL_FOR_SPIKES) {
-            spikes.add(new Spike((float) 0.4, (float) 0.4, (float) 0.03, (float) 0.04));
-            spikes.add(new Spike((float) 0.6, (float) 0.6, (float) 0.1, (float) 0.05));
-            spikes.add(new Spike((float) 1.3, (float) 0.4, (float) 0.05, (float) 0.05));
+            spikes.add(new Spike((float) 0.4, (float) 0.4, (float) 0.03, (float) 0.04, drawImageSpikes, spikeImage));
+            spikes.add(new Spike((float) 0.6, (float) 0.6, (float) 0.1, (float) 0.05, drawImageSpikes, spikeImage));
+            spikes.add(new Spike((float) 1.3, (float) 0.4, (float) 0.05, (float) 0.05, drawImageSpikes, spikeImage));
         }
 
         saws = new ArrayList<>();
+        boolean drawImageSaw = gameProgress.graphicsLevel >= GameProgress.GRAPHICS_LEVEL_FOR_SAWS_IMAGES;
         if (gameProgress.dangerLevel >= GameProgress.DANGER_LEVEL_FOR_SAWS) {
             double sawHeight = 0.1;
             double sawWidth = sawHeight * canvasHeight / canvasWidth;
-            saws.add(new Saw((float) 0.4, (float) 0.4, sawWidth, sawHeight, 0.05, 1));
-            saws.add(new Saw((float) 1.8, (float) 0.3, sawWidth, sawHeight, 0.05, 0.5));
+            saws.add(new Saw((float) 0.4, (float) 0.4, sawWidth, sawHeight, 0.05, 1, drawImageSaw, sawImage));
+            saws.add(new Saw((float) 1.8, (float) 0.3, sawWidth, sawHeight, 0.05, 0.5, drawImageSaw, sawImage));
         }
 
 
