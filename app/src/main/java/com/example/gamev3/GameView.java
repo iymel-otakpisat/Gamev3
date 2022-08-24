@@ -48,7 +48,7 @@ public abstract class GameView extends SurfaceView implements Runnable {
         super(context);
         this.context = context;
 
-        score = 1000;
+        score = 1500;
 
         finishImage = ContextCompat.getDrawable(this.context, R.drawable.finish);
         finishDoorImage = ContextCompat.getDrawable(this.context, R.drawable.only_door);
