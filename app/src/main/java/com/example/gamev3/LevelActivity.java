@@ -91,6 +91,29 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
             LevelActivity.this.startActivity(myIntent);
             finish();
         });
+
+        if (gp.four < gp.score){
+            gp.four = gp.score;
+            gp.save(sp);
+        }
+        if (gp.three < gp.four){
+            int a = gp.three;
+            gp.three = gp.four;
+            gp.four = a;
+            gp.save(sp);
+        }
+        if (gp.two < gp.three){
+            int a = gp.two;
+            gp.two = gp.three;
+            gp.three = a;
+            gp.save(sp);
+        }
+        if (gp.one < gp.two){
+            int a = gp.one;
+            gp.one = gp.two;
+            gp.two = a;
+            gp.save(sp);
+        }
     }
 
     public void lostLevel() {
@@ -119,6 +142,29 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
             LevelActivity.this.startActivity(myIntent);
             finish();
         });
+
+        if (gp.four < gp.score){
+            gp.four = gp.score;
+            gp.save(sp);
+        }
+        if (gp.three < gp.four){
+            int a = gp.three;
+            gp.three = gp.four;
+            gp.four = a;
+            gp.save(sp);
+        }
+        if (gp.two < gp.three){
+            int a = gp.two;
+            gp.two = gp.three;
+            gp.three = a;
+            gp.save(sp);
+        }
+        if (gp.one < gp.two){
+            int a = gp.one;
+            gp.one = gp.two;
+            gp.two = a;
+            gp.save(sp);
+        }
     }
 
     @Override
