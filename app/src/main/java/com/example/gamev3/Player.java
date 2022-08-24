@@ -165,6 +165,7 @@ public class Player {
                 spike.x + spike.width / 4 >= x + width / 2){
             return true;
         }
+
         if(spike.x - spike.width / 2 <= x - width / 2 &&
                 spike.y + spike.height / 2 >= y &&
                 spike.y <= y &&
