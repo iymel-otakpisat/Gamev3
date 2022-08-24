@@ -9,10 +9,6 @@ public class GameProgress {
     int dangerLevel;
     int graphicsLevel;
     int soundLevel;
-    int one;
-    int two;
-    int three;
-    int four;
     public static final int SOUND_LEVEL_FOR_DEATH_SOUND = 1;
     public static final int SOUND_LEVEL_FOR_JUMP_1_SOUND = 1;
     public static final int SOUND_LEVEL_FOR_JUMP_2_SOUND = 2;
@@ -22,17 +18,13 @@ public class GameProgress {
     public static final int DANGER_LEVEL_FOR_SAWS = 2;
 
 
-    GameProgress(boolean gameInProgress, int score, int levelCompleted, int dangerLevel, int graphicsLevel, int soundLevel, int one, int two, int three, int four) {
+    GameProgress(boolean gameInProgress, int score, int levelCompleted, int dangerLevel, int graphicsLevel, int soundLevel) {
         this.gameInProgress = gameInProgress;
         this.score = score;
         this.levelCompleted = levelCompleted;
         this.dangerLevel = dangerLevel;
         this.graphicsLevel = graphicsLevel;
         this.soundLevel = soundLevel;
-        this.one = one;
-        this.two = two;
-        this.three = three;
-        this.four = four;
     }
 
 
@@ -43,12 +35,8 @@ public class GameProgress {
                 sp.getInt("level_completed", 0),
                 sp.getInt("danger_level", 0),
                 sp.getInt("graphics_level", 0),
-                sp.getInt("sound_level", 0),
-                sp.getInt("one", 0 ),
-                sp.getInt("two", 0 ),
-                sp.getInt("three", 0 ),
-                sp.getInt("four", 0 )
-                );
+                sp.getInt("sound_level", 0)
+        );
     }
 
     public void save(SharedPreferences sp) {
@@ -59,10 +47,6 @@ public class GameProgress {
         ed.putInt("danger_level", dangerLevel);
         ed.putInt("graphics_level", graphicsLevel);
         ed.putInt("sound_level", soundLevel);
-        ed.putInt("one", one);
-        ed.putInt("two", two);
-        ed.putInt("three", three);
-        ed.putInt("four", four);
         ed.apply();
     }
 

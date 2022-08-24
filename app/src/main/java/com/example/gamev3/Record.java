@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class Record extends AppCompatActivity {
     TextView textView1, textView2, textView3, textView4;
 
@@ -17,7 +19,6 @@ public class Record extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         SharedPreferences sp = getSharedPreferences("MyPref", MODE_PRIVATE);
-        GameProgress gp = GameProgress.fromPref(sp);
         setContentView(R.layout.activity_record);
 
         Button backHome = findViewById(R.id.button_back_home);
@@ -26,16 +27,17 @@ public class Record extends AppCompatActivity {
             Record.this.startActivity(myIntent);
         });
 
+        ArrayList<Integer> curRecords = RecordHandler.getRecords(sp);
 
         textView1 = (TextView) findViewById(R.id.textView1);
         textView2 = (TextView) findViewById(R.id.textView2);
         textView3 = (TextView) findViewById(R.id.textView3);
         textView4 = (TextView) findViewById(R.id.textView4);
 
-        textView1.setText("1." + gp.one);
-        textView2.setText("2." + gp.two);
-        textView3.setText("3." + gp.three);
-        textView4.setText("4." + gp.four);
+        textView1.setText("1." + curRecords.get(0));
+        textView2.setText("2." + curRecords.get(1));
+        textView3.setText("3." + curRecords.get(2));
+        textView4.setText("4." + curRecords.get(3));
 
     }
 }
