@@ -10,4 +10,5 @@
     <string name="warning">опасности</string>
     <string name="sound">звуки</string>
     <string name="graphic">графика</string>
+    <string name="record">рекорд</string>
 </resources>

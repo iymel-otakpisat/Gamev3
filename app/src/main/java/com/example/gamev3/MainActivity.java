@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     Button start;
+    Button record;
     Button resetProgress;
 
     @Override
@@ -27,6 +28,18 @@ public class MainActivity extends AppCompatActivity {
             gp.gameInProgress = true;
             gp.save(sp);
             Intent myIntent = new Intent(MainActivity.this, LevelActivity.class);
+            MainActivity.this.startActivity(myIntent);
+        });
+        record = findViewById(R.id.record_button);
+        record.setOnClickListener(v -> {
+            SharedPreferences sp = getSharedPreferences("MyPref", MODE_PRIVATE);
+            GameProgress gp = GameProgress.fromPref(sp);
+            if (!gp.gameInProgress) {
+                gp.clear(sp);
+            }
+            gp.gameInProgress = true;
+            gp.save(sp);
+            Intent myIntent = new Intent(MainActivity.this, Record.class);
             MainActivity.this.startActivity(myIntent);
         });
         resetProgress = findViewById(R.id.reset_progress);

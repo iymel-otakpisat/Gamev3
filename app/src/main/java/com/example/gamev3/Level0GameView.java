@@ -30,7 +30,7 @@ public class Level0GameView extends GameView {
         platforms.add(new Platform(0.4, 0.4, 0.1, platformSizeY));
         platforms.add(new Platform(0.6, 0.2, 0.1, platformSizeY));
         platforms.add(new Platform(0.6, 0.6, 0.1, platformSizeY));
-        platforms.add(new Platform(1.0, 0.4, 0.1, platformSizeY));
+        platforms.add(new Platform(1.0, 0.4, 0.15, platformSizeY));
         platforms.add(new Platform(1.3, 0.4, 0.12, platformSizeY));
         platforms.add(new Platform(1.55, 0.4, 0.1, platformSizeY));
         platforms.add(new Platform(1.8, 0.3, 0.1, platformSizeY));

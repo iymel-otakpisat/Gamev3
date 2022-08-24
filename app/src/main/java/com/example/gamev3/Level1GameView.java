@@ -38,10 +38,10 @@ public class Level1GameView extends GameView {
         platforms.add(new Platform(1.1, 0.4, 0.1, platformSizeY));
 
         platforms.add(new Platform(1.3, 0.2, 0.1, platformSizeY));
-        platforms.add(new Platform(1.65, 0.2, 0.1, platformSizeY));
-        platforms.add(new Platform(1.95, 0.1, 0.1, platformSizeY));
-        platforms.add(new Platform(1.95, -0.2, 0.1, platformSizeY));
-        platforms.add(new Platform(2.1, 0.2, 0.1, platformSizeY));
+        platforms.add(new Platform(1.6, 0.2, 0.1, platformSizeY));
+        platforms.add(new Platform(1.8, 0.0, 0.1, platformSizeY));
+        platforms.add(new Platform(1.8, -0.4, 0.1, platformSizeY));
+        platforms.add(new Platform(2.0, 0.2, 0.15, platformSizeY));
 
         platforms.add(new Platform(1. / 2, 0.9, 15, platformSizeY));
         platforms.add(new Platform(-1, 0, platformSizeX, 1.8));
@@ -67,7 +67,7 @@ public class Level1GameView extends GameView {
             saws.add(new Saw((float) 0.2, (float) -0.2, sawWidth, sawHeight, 0.13, 1));
         }
 
-        finish = Finish.from_bottom_part(2.1, 0.2, canvasWidth, canvasHeight, finishImage, finishDoorImage);
+        finish = Finish.from_bottom_part(2.0, 0.2, canvasWidth, canvasHeight, finishImage, finishDoorImage);
 
     }
 }
