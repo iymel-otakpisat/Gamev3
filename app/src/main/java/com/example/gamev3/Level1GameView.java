@@ -52,7 +52,6 @@ public class Level1GameView extends GameView {
             spikes.add(new Spike((float) 0.8, (float) -0.2, (float) 0.04, (float) 0.05, drawImageSpikes, spikeImage));
             spikes.add(new Spike((float) 1.0, (float) -0.2, (float) 0.04, (float) 0.05, drawImageSpikes, spikeImage));
             spikes.add(new Spike((float) 0.9, (float) -0.2, (float) 0.03, (float) 0.04, drawImageSpikes, spikeImage));
-            spikes.add(new Spike((float) 2.0, (float) 0.2, (float) 0.02, (float) 0.03, drawImageSpikes, spikeImage));
         }
 
         saws = new ArrayList<>();
