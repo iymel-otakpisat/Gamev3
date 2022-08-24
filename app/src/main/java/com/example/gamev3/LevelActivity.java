@@ -86,6 +86,7 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
         });
         Button continuation = findViewById(R.id.button_continue_shop);
         continuation.setOnClickListener(v -> {
+            level.stopRunning();
             Intent myIntent = new Intent(LevelActivity.this, ShopActivity.class);
             LevelActivity.this.startActivity(myIntent);
             finish();

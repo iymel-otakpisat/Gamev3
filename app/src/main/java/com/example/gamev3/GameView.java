@@ -48,7 +48,11 @@ public abstract class GameView extends SurfaceView implements Runnable {
 
     MediaPlayer jumpsound1;
     MediaPlayer jumpsound2;
-    MediaPlayer deathsound;
+    MediaPlayer deathsound1;
+    MediaPlayer deathsound2;
+    MediaPlayer deathsound3;
+    MediaPlayer deathsound4;
+    MediaPlayer deathsound5;
 
     public GameView(Context context, GameProgress gp) {
         super(context);
@@ -70,7 +74,11 @@ public abstract class GameView extends SurfaceView implements Runnable {
 
         jumpsound1 = MediaPlayer.create(context, R.raw.jump1);
         jumpsound2 = MediaPlayer.create(context, R.raw.jump2);
-        deathsound = MediaPlayer.create(context, R.raw.death);
+        deathsound1 = MediaPlayer.create(context, R.raw.death);
+        deathsound2 = MediaPlayer.create(context, R.raw.death2);
+        deathsound3 = MediaPlayer.create(context, R.raw.death3);
+        deathsound4 = MediaPlayer.create(context, R.raw.death4);
+        deathsound5 = MediaPlayer.create(context, R.raw.death5);
 
         holder = getHolder();
 
@@ -168,7 +176,7 @@ public abstract class GameView extends SurfaceView implements Runnable {
                 if (spike.touched(player)) {
                     lost = true;
                     if (gameProgress.soundLevel >= GameProgress.SOUND_LEVEL_FOR_DEATH_SOUND) {
-                        deathsound.start();
+                        playDeathSound();
                     }
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     LevelActivity levelActivity = (LevelActivity) this.context;
@@ -180,7 +188,7 @@ public abstract class GameView extends SurfaceView implements Runnable {
                 if (player.touchSaw(saw)) {
                     lost = true;
                     if (gameProgress.soundLevel >= GameProgress.SOUND_LEVEL_FOR_DEATH_SOUND) {
-                        deathsound.start();
+                        playDeathSound();
                     }
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     LevelActivity levelActivity = (LevelActivity) this.context;
@@ -190,6 +198,21 @@ public abstract class GameView extends SurfaceView implements Runnable {
             }
         }
 
+    }
+
+    private void playDeathSound() {
+        double x = random.nextDouble();
+        if (x < 0.5) {
+            deathsound1.start();
+        } else if (x < 0.7) {
+            deathsound2.start();
+        } else if (x < 0.9) {
+            deathsound3.start();
+        } else if (x < 0.95) {
+            deathsound4.start();
+        } else {
+            deathsound5.start();
+        }
     }
 
     public void stopRunning() {
