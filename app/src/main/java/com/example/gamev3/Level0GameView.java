@@ -35,6 +35,7 @@ public class Level0GameView extends GameView {
         platforms.add(new Platform(1.55, 0.4, 0.1, platformSizeY));
         platforms.add(new Platform(1.8, 0.3, 0.1, platformSizeY));
 
+
         platforms.add(new Platform(1. / 2, 0.9, 15, platformSizeY));
         platforms.add(new Platform(-0.3, 0, platformSizeX, 1.8));
         platforms.add(new Platform(2.3, 0, platformSizeX, 1.8));
@@ -48,6 +49,7 @@ public class Level0GameView extends GameView {
         double sawHeight = 0.1;
         double sawWidth = sawHeight * canvasHeight / canvasWidth;
         saws.add(new Saw((float) 0.4, (float) 0.4, sawWidth, sawHeight, 0.05, 1));
+        saws.add(new Saw((float) 1.8, (float) 0.3, sawWidth, sawHeight, 0.025, 1));
 
 
         finish = Finish.from_bottom_part(2, 0.2, canvasWidth, canvasHeight, finishImage, finishDoorImage);

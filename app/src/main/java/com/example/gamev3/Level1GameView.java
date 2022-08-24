@@ -44,6 +44,7 @@ public class Level1GameView extends GameView {
         double sawHeight = 0.1;
         double sawWidth = sawHeight * canvasHeight / canvasWidth;
         saws.add(new Saw((float) 0.4, (float) 0.4, sawWidth, sawHeight, 0.05, 1));
+        saws.add(new Saw((float) 0.4, (float) 0.4, sawWidth, sawHeight, 0.05, 1));
 
 
         finish = Finish.from_bottom_part(3.1, 0.2, canvasWidth, canvasHeight, finishImage, finishDoorImage);
