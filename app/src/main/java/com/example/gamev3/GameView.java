@@ -11,16 +11,8 @@ import android.os.Looper;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.ViewTreeObserver;
-import android.media.MediaPlayer;
 
 import androidx.core.content.ContextCompat;
-
-import com.example.gamev3.Finish;
-import com.example.gamev3.LevelActivity;
-import com.example.gamev3.Platform;
-import com.example.gamev3.Spike;
-import com.example.gamev3.Player;
-import com.example.gamev3.R;
 
 import java.util.ArrayList;
 
@@ -49,6 +41,8 @@ public abstract class GameView extends SurfaceView implements Runnable {
     final Drawable finishDoorImage;
 
     MediaPlayer jumpsound1;
+    MediaPlayer jumpsound2;
+    MediaPlayer deathsound;
 
     public GameView(Context context) {
         super(context);
@@ -59,8 +53,9 @@ public abstract class GameView extends SurfaceView implements Runnable {
         finishImage = ContextCompat.getDrawable(this.context, R.drawable.finish);
         finishDoorImage = ContextCompat.getDrawable(this.context, R.drawable.only_door);
 
-        jumpsound1 = MediaPlayer.create(context,R.raw.jump1);
-
+        jumpsound1 = MediaPlayer.create(context, R.raw.jump1);
+        jumpsound2 = MediaPlayer.create(context, R.raw.jump2);
+        deathsound = MediaPlayer.create(context, R.raw.death);
 
         holder = getHolder();
 
@@ -98,11 +93,15 @@ public abstract class GameView extends SurfaceView implements Runnable {
             score--;
         }
 
-        if (!finished) {
+        if (!finished && !lost) {
             if (goJump) {
                 player.jump(platforms);
                 goJump = false;
-                jumpsound1.start();
+                if (Math.random() > 0.5) {
+                    jumpsound1.start();
+                } else {
+                    jumpsound2.start();
+                }
             }
             if (direction == 2) {
                 player.accelerate(0, 0.002);
@@ -140,21 +139,23 @@ public abstract class GameView extends SurfaceView implements Runnable {
             for (Spike spike : spikes) {//spike.touched(player)
                 if (spike.touched(player)) {
                     lost = true;
+                    deathsound.start();
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     LevelActivity levelActivity = (LevelActivity) this.context;
                     Runnable myRunnable = levelActivity::lostLevel;
                     mainHandler.post(myRunnable);
                 }
             }
-            //for (Saw saw : saws) {
-            //    if (saw.touched(player)) {
-            //        lost = true;
-            //       Handler mainHandler = new Handler(Looper.getMainLooper());
-            //        LevelActivity levelActivity = (LevelActivity) this.context;
-            //        Runnable myRunnable = levelActivity::lostLevel;
-            //        mainHandler.post(myRunnable);
-            //    }
-            //}
+            for (Saw saw : saws) {
+                if (player.touchSaw(saw)) {
+                    lost = true;
+                    deathsound.start();
+                    Handler mainHandler = new Handler(Looper.getMainLooper());
+                    LevelActivity levelActivity = (LevelActivity) this.context;
+                    Runnable myRunnable = levelActivity::lostLevel;
+                    mainHandler.post(myRunnable);
+                }
+            }
         }
 
     }

@@ -34,6 +34,7 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
         level = getGameView();
 
         super.onCreate(savedInstanceState);
+        startService(new Intent(LevelActivity.this, LevelSoundService.class));
 
         startLevel();
     }
@@ -139,6 +140,11 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
             return v.performClick();
         }
         return true;
+    }
+
+    protected void onPause() {
+        stopService(new Intent(LevelActivity.this, LevelSoundService.class));
+        super.onPause();
     }
 
 }

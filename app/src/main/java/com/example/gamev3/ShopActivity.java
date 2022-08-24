@@ -16,6 +16,7 @@ public class ShopActivity  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        startService(new Intent(ShopActivity.this, ShopSoundService.class));
 
         SharedPreferences sp = getSharedPreferences("MyPref", MODE_PRIVATE);
         GameProgress gp = GameProgress.fromPref(sp);
@@ -38,18 +39,14 @@ public class ShopActivity  extends AppCompatActivity {
             //тут надо будет хотя бы сделать звук прыжка(мб вообще уберу эту кнопку)
             ++gp.soundLevel;
             gp.save(sp);
-            Intent myIntent = new Intent(ShopActivity.this, LevelActivity.class);
-            ShopActivity.this.startActivity(myIntent);
-            finish();
+            startLevel();
         });
         Button graphic = findViewById(R.id.graphic_upgrade);
         graphic.setOnClickListener(v -> {
             //пока можно сделать тупо одно изменение графики(например: изначально финишь сделать прямоугольникам, а после то, что уже есть сейчас)
             ++gp.graphicsLevel;
             gp.save(sp);
-            Intent myIntent = new Intent(ShopActivity.this, LevelActivity.class);
-            ShopActivity.this.startActivity(myIntent);
-            finish();
+            startLevel();
         });
         Button danger = findViewById(R.id.warning_upgrade);
         danger.setOnClickListener(v -> {
@@ -57,9 +54,18 @@ public class ShopActivity  extends AppCompatActivity {
             //добавление пил
             ++gp.dangerLevel;
             gp.save(sp);
-            Intent myIntent = new Intent(ShopActivity.this, LevelActivity.class);
-            ShopActivity.this.startActivity(myIntent);
-            finish();
+            startLevel();
         });
     }
+    void startLevel() {
+        Intent myIntent = new Intent(ShopActivity.this, LevelActivity.class);
+        ShopActivity.this.startActivity(myIntent);
+        finish();
+    }
+
+    protected void onPause() {
+        stopService(new Intent(ShopActivity.this, ShopSoundService.class));
+        super.onPause();
+    }
+
 }

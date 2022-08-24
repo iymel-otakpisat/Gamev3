@@ -6,8 +6,10 @@ import android.graphics.Path;
 import android.graphics.RectF;
 
 public class Saw extends Body {
-    final double x;
-    final double y;
+    double x;
+    double y;
+    final double startX;
+    final double startY;
     final double width;
     final double height;
     final Paint paint;
@@ -20,6 +22,8 @@ public class Saw extends Body {
         super(x, y, height, width);
         this.x = x;
         this.y = y;
+        this.startX = x;
+        this.startY = y;
         this.width = width;
         this.height = height;
         paint = new Paint();
@@ -31,20 +35,16 @@ public class Saw extends Body {
 
     public void update() {
         time += 0.05 * moveSpeed;
+        x = (startX + Math.sin(time) * moveRange);
     }
 
     public void draw(Canvas canvas, double height, double width, double cameraViewX, double cameraViewY) {
 
-        float center_x, center_y;
-        center_x = (float) (x + Math.sin(time) * moveRange);
-        System.out.println(center_x);
-        center_y = (float) y;
-
         final RectF oval = new RectF();
-        oval.set((float) ((center_x - this.width / 2 - cameraViewX) * width),
-                (float) ((center_y - this.height / 2 - cameraViewY) * height),
-                (float) ((center_x + this.width / 2 - cameraViewX) * width),
-                (float) ((center_y + this.height / 2 - cameraViewY) * height));
+        oval.set((float) ((x - this.width / 2 - cameraViewX) * width),
+                (float) ((y - this.height / 2 - cameraViewY) * height),
+                (float) ((x + this.width / 2 - cameraViewX) * width),
+                (float) ((y + this.height / 2 - cameraViewY) * height));
         canvas.drawArc(oval, 180, 360, true, paint);
 
     }

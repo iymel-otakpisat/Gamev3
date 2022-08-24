@@ -91,8 +91,68 @@ public class Player {
 
 
 
-        public void jump(ArrayList<Platform> platforms) {
-        for (Platform p: platforms) {
+    static double sqDist(double x1, double y1, double x2, double y2) {
+        return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
+    }
+
+    static boolean rectTouchCircle(double rectLeft, double rectUp, double rectRight, double rectDown,
+                                   double circleX, double circleY, double circleR) {
+        if (circleX <= rectLeft) {
+            if (circleY <= rectDown) {
+                // left down
+                return sqDist(rectLeft, rectDown, circleX, circleY) <= circleR * circleR;
+            }
+            if (circleY <= rectUp) {
+                // left
+                return (rectLeft - circleX) <= circleR;
+            }
+            // left up
+            return sqDist(rectLeft, rectUp, circleX, circleY) <= circleR * circleR;
+        }
+        if (circleX <= rectRight) {
+            if (circleY <= rectDown) {
+                // down
+                return (rectDown - circleY) <= circleR;
+            }
+            if (circleY <= rectUp) {
+                // inside
+                return true;
+            }
+            // up
+            return (circleY - rectUp) <= circleR;
+        }
+        if (circleY <= rectDown) {
+            // right down
+            return sqDist(rectRight, rectDown, circleX, circleY) < circleR * circleR;
+        }
+        if (circleY <= rectUp) {
+            // right
+            return (circleX - rectRight) <= circleR;
+        }
+        // right up
+        return sqDist(rectRight, rectUp, circleX, circleY) < circleR * circleR;
+    }
+
+    public boolean touchSaw(Saw saw) {
+        double rectLeft = x - width / 2;
+        double rectUp = y + height / 2;
+        double rectRight = x + width / 2;
+        double rectDown = y - height / 2;
+        double circleX = saw.x;
+        double circleY = saw.y;
+        rectLeft /= saw.width / 2;
+        rectRight /= saw.width / 2;
+        circleX /= saw.width / 2;
+        rectUp /= saw.height / 2;
+        rectDown /= saw.height / 2;
+        circleY /= saw.height / 2;
+        double circleR = 1;
+        return rectTouchCircle(rectLeft, rectUp, rectRight, rectDown, circleX, circleY, circleR);
+
+    }
+
+    public void jump(ArrayList<Platform> platforms) {
+        for (Platform p : platforms) {
             if (p.x - p.width / 2 < x + width / 2 &&
                     x - width / 2 < p.x + p.width / 2 &&
                     -eps < (p.y - p.height / 2 - y - height / 2 - eps / 2) &&
