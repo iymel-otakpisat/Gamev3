@@ -9,6 +9,14 @@ public class GameProgress {
     int dangerLevel;
     int graphicsLevel;
     int soundLevel;
+    public static final int SOUND_LEVEL_FOR_DEATH_SOUND = 1;
+    public static final int SOUND_LEVEL_FOR_JUMP_1_SOUND = 1;
+    public static final int SOUND_LEVEL_FOR_JUMP_2_SOUND = 2;
+    public static final int SOUND_LEVEL_FOR_SONGS = 2;
+
+    public static final int DANGER_LEVEL_FOR_SPIKES = 1;
+    public static final int DANGER_LEVEL_FOR_SAWS = 2;
+
 
     GameProgress(boolean gameInProgress, int score, int levelCompleted, int dangerLevel, int graphicsLevel, int soundLevel) {
         this.gameInProgress = gameInProgress;

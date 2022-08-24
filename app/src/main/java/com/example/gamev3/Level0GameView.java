@@ -10,8 +10,8 @@ import com.example.gamev3.Spike;
 import java.util.ArrayList;
 
 public class Level0GameView extends GameView {
-    public Level0GameView(Context context) {
-        super(context);
+    public Level0GameView(Context context, GameProgress gp) {
+        super(context, gp);
     }
 
     @Override
@@ -42,15 +42,19 @@ public class Level0GameView extends GameView {
         platforms.add(new Platform(2.3, 0, platformSizeX, 1.8));
 
         spikes = new ArrayList<>();
-        spikes.add(new Spike((float) 0.4, (float) 0.4, (float) 0.03, (float) 0.04));
-        spikes.add(new Spike((float) 0.6, (float) 0.6, (float) 0.1, (float) 0.05));
-        spikes.add(new Spike((float) 1.3, (float) 0.4, (float) 0.05, (float) 0.05));
+        if (gameProgress.dangerLevel >= GameProgress.DANGER_LEVEL_FOR_SPIKES) {
+            spikes.add(new Spike((float) 0.4, (float) 0.4, (float) 0.03, (float) 0.04));
+            spikes.add(new Spike((float) 0.6, (float) 0.6, (float) 0.1, (float) 0.05));
+            spikes.add(new Spike((float) 1.3, (float) 0.4, (float) 0.05, (float) 0.05));
+        }
 
         saws = new ArrayList<>();
-        double sawHeight = 0.1;
-        double sawWidth = sawHeight * canvasHeight / canvasWidth;
-        saws.add(new Saw((float) 0.4, (float) 0.4, sawWidth, sawHeight, 0.05, 1));
-        saws.add(new Saw((float) 1.8, (float) 0.3, sawWidth, sawHeight, 0.05, 0.5));
+        if (gameProgress.dangerLevel >= GameProgress.DANGER_LEVEL_FOR_SAWS) {
+            double sawHeight = 0.1;
+            double sawWidth = sawHeight * canvasHeight / canvasWidth;
+            saws.add(new Saw((float) 0.4, (float) 0.4, sawWidth, sawHeight, 0.05, 1));
+            saws.add(new Saw((float) 1.8, (float) 0.3, sawWidth, sawHeight, 0.05, 0.5));
+        }
 
 
         finish = Finish.from_bottom_part(2, 0.2, canvasWidth, canvasHeight, finishImage, finishDoorImage);

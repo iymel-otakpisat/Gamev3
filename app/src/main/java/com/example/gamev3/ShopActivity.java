@@ -16,11 +16,16 @@ public class ShopActivity  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        startService(new Intent(ShopActivity.this, ShopSoundService.class));
+
 
         SharedPreferences sp = getSharedPreferences("MyPref", MODE_PRIVATE);
         GameProgress gp = GameProgress.fromPref(sp);
         setContentView(R.layout.activity_shop);
+
+
+        if (gp.soundLevel >= GameProgress.SOUND_LEVEL_FOR_SONGS) {
+            startService(new Intent(ShopActivity.this, ShopSoundService.class));
+        }
 
         TextView t = findViewById(R.id.textView);
         String text = "Уровней пройдено: " + gp.levelCompleted + "\nОбщий счёт: " + gp.score;

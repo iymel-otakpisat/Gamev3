@@ -1,6 +1,7 @@
 package com.example.gamev3;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -15,6 +16,7 @@ import android.view.ViewTreeObserver;
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public abstract class GameView extends SurfaceView implements Runnable {
@@ -39,16 +41,19 @@ public abstract class GameView extends SurfaceView implements Runnable {
     boolean lost = false;
     final Drawable finishImage;
     final Drawable finishDoorImage;
+    GameProgress gameProgress;
+    Random random;
 
     MediaPlayer jumpsound1;
     MediaPlayer jumpsound2;
     MediaPlayer deathsound;
 
-    public GameView(Context context) {
+    public GameView(Context context, GameProgress gp) {
         super(context);
         this.context = context;
-
+        gameProgress = gp;
         score = 1500;
+        random = new Random();
 
         finishImage = ContextCompat.getDrawable(this.context, R.drawable.finish);
         finishDoorImage = ContextCompat.getDrawable(this.context, R.drawable.only_door);
@@ -97,10 +102,16 @@ public abstract class GameView extends SurfaceView implements Runnable {
             if (goJump) {
                 player.jump(platforms);
                 goJump = false;
-                if (Math.random() > 0.5) {
-                    jumpsound1.start();
-                } else {
-                    jumpsound2.start();
+                ArrayList<MediaPlayer> possibleJumpSounds = new ArrayList<>();
+                if (gameProgress.soundLevel >= GameProgress.SOUND_LEVEL_FOR_JUMP_1_SOUND) {
+                    possibleJumpSounds.add(jumpsound1);
+                }
+                if (gameProgress.soundLevel >= GameProgress.SOUND_LEVEL_FOR_JUMP_2_SOUND) {
+                    possibleJumpSounds.add(jumpsound2);
+                }
+                if (possibleJumpSounds.size() >= 1) {
+                    int sound_id = random.nextInt(possibleJumpSounds.size());
+                    (possibleJumpSounds.get(sound_id)).start();
                 }
             }
             if (direction == 2) {
@@ -139,7 +150,9 @@ public abstract class GameView extends SurfaceView implements Runnable {
             for (Spike spike : spikes) {
                 if (spike.touched(player)) {
                     lost = true;
-                    deathsound.start();
+                    if (gameProgress.soundLevel >= GameProgress.SOUND_LEVEL_FOR_DEATH_SOUND) {
+                        deathsound.start();
+                    }
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     LevelActivity levelActivity = (LevelActivity) this.context;
                     Runnable myRunnable = levelActivity::lostLevel;
@@ -149,7 +162,9 @@ public abstract class GameView extends SurfaceView implements Runnable {
             for (Saw saw : saws) {
                 if (player.touchSaw(saw)) {
                     lost = true;
-                    deathsound.start();
+                    if (gameProgress.soundLevel >= GameProgress.SOUND_LEVEL_FOR_DEATH_SOUND) {
+                        deathsound.start();
+                    }
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     LevelActivity levelActivity = (LevelActivity) this.context;
                     Runnable myRunnable = levelActivity::lostLevel;

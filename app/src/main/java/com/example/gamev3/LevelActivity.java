@@ -20,21 +20,26 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
     DirectionButton buttonUp;
     DirectionButton buttonLeft;
     DirectionButton buttonRight;
+    GameProgress gp;
 
     GameView getGameView() {
         Random random = new Random();
         int x = 1;//random.nextInt(2);
-        GameView[] lvls = {new Level0GameView(this), new Level1GameView(this)};
+        GameView[] lvls = {new Level0GameView(this, gp), new Level1GameView(this, gp)};
 
         return lvls[x];
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sp = getSharedPreferences("MyPref", MODE_PRIVATE);
+        gp = GameProgress.fromPref(sp);
         level = getGameView();
 
         super.onCreate(savedInstanceState);
-        startService(new Intent(LevelActivity.this, LevelSoundService.class));
+        if (gp.soundLevel >= GameProgress.SOUND_LEVEL_FOR_SONGS) {
+            startService(new Intent(LevelActivity.this, LevelSoundService.class));
+        }
 
         startLevel();
     }
