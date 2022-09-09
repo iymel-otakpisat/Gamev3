@@ -6,13 +6,13 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 
 public abstract class Body {
-    final double x;
-    final double y;
-    final double height;
-    final double width;
+    final float x;
+    final float y;
+    final float height;
+    final float width;
     final Paint paint;
 
-    public Body(double x, double y, double height, double width) {
+    public Body(float x, float y, float height, float width) {
         this.x = x;
         this.y = y;
         this.height = height;
@@ -25,5 +25,5 @@ public abstract class Body {
         return Math.abs(p.x - x) <= width / 2 + p.width / 2 && Math.abs(p.y - y) <= height / 2 + p.height;
     }
 
-    public abstract void draw(Canvas canvas, double height, double width, double cameraViewX, double cameraViewY);
+    public abstract void draw(Canvas canvas, float height, float width, float cameraViewX, float cameraViewY);
 }

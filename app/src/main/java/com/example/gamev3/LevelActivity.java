@@ -72,6 +72,11 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
         gp.levelCompleted += 1;
         gp.save(sp);
 
+        if (gp.levelCompleted == 5) {
+            maxlevelscomplete();
+            return;
+        }
+
         ViewGroup.LayoutParams lp2 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         View secondLayerView2 = LayoutInflater.from(this).inflate(R.layout.activity_level_complete, null, false);
         addContentView(secondLayerView2, lp2);
@@ -123,23 +128,29 @@ public class LevelActivity extends AppCompatActivity implements View.OnTouchList
         });
     }
 
-    public void maxlevelscomplete(){
+    public void maxlevelscomplete() {
         SharedPreferences sp = getSharedPreferences("MyPref", MODE_PRIVATE);
         GameProgress gp = GameProgress.fromPref(sp);
         gp.gameInProgress = false;
         gp.save(sp);
 
         RecordHandler.updateScores(gp.score, sp);
-        RecordHandler.getRecords(sp);
 
         Toast toast = Toast.makeText(getApplicationContext(),
                 "Вы прошли максимальное кол-во уровней! Финальный счёт: " + gp.score, Toast.LENGTH_SHORT);
         toast.show();
 
-        level.stopRunning();
-        Intent myIntent = new Intent(LevelActivity.this, MainActivity.class);
-        LevelActivity.this.startActivity(myIntent);
-        finish();
+        ViewGroup.LayoutParams lp2 = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        View secondLayerView2 = LayoutInflater.from(this).inflate(R.layout.activity_level_gameover, null, false);
+        addContentView(secondLayerView2, lp2);
+        Button backHome = findViewById(R.id.button_back_home);
+        backHome.setOnClickListener(v -> {
+            level.stopRunning();
+            Intent myIntent = new Intent(LevelActivity.this, MainActivity.class);
+            LevelActivity.this.startActivity(myIntent);
+            finish();
+        });
+
     }
 
     @Override

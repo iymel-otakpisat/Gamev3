@@ -7,17 +7,17 @@ import android.graphics.drawable.Drawable;
 
 import androidx.core.content.ContextCompat;
 
-public class Spike extends Body{
-    final double x;
-    final double y;
-    final double width;
-    final double height;
+public class Spike extends Body {
+    final float x;
+    final float y;
+    final float width;
+    final float height;
     final Paint paint;
     final Path path;
     final Drawable spikeImage;
     final boolean drawImageSpikes;
 
-    public Spike(double x, double y, double width, double height,
+    public Spike(float x, float y, float width, float height,
                  boolean drawImageSpikes, Drawable spikeImage) {
         super(x, y, height, width);
         this.x = x;
@@ -30,7 +30,11 @@ public class Spike extends Body{
         this.drawImageSpikes = drawImageSpikes;
     }
 
-    public void draw(Canvas canvas, double height, double width, double cameraViewX, double cameraViewY) {
+    public boolean touched(Player p) {
+        return Math.abs(p.x - x) <= width / 2 + p.width / 2 && Math.abs(p.y - y + height / 2) <= height / 2 + p.height / 2;
+    }
+
+    public void draw(Canvas canvas, float height, float width, float cameraViewX, float cameraViewY) {
 
         if (drawImageSpikes) {
             spikeImage.setBounds((int) ((x - this.width / 2 - cameraViewX) * width),
@@ -41,12 +45,12 @@ public class Spike extends Body{
         } else {
             path.reset();
 
-            path.moveTo((float) x, (float) y);
+            path.moveTo(x, y);
 
-            path.lineTo( (float) ((x - this.width / 2  - cameraViewX) * width),(float) ((y - cameraViewY) * height));
-            path.lineTo( (float) ((x - cameraViewX) * width), (float) ((y - this.height - cameraViewY) * height));
-            path.lineTo( (float) ((x + this.width / 2 - cameraViewX) * width), (float) ((y - cameraViewY) * height));
-            path.lineTo((float) ((x - this.width / 2 - cameraViewX) * width), (float) ((y - cameraViewY) * height));
+            path.lineTo(((x - this.width / 2 - cameraViewX) * width), ((y - cameraViewY) * height));
+            path.lineTo(((x - cameraViewX) * width), ((y - this.height - cameraViewY) * height));
+            path.lineTo(((x + this.width / 2 - cameraViewX) * width), ((y - cameraViewY) * height));
+            path.lineTo(((x - this.width / 2 - cameraViewX) * width), ((y - cameraViewY) * height));
 
             canvas.drawPath(path, paint);
         }

@@ -21,7 +21,6 @@ public class GameProgress {
     public static final int GRAPHICS_LEVEL_FOR_SAWS_IMAGES = 1;
 
 
-
     GameProgress(boolean gameInProgress, int score, int levelCompleted, int dangerLevel, int graphicsLevel, int soundLevel) {
         this.gameInProgress = gameInProgress;
         this.score = score;

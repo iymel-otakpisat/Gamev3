@@ -7,22 +7,22 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 
 public class Saw extends Body {
-    double x;
-    double y;
-    final double startX;
-    final double startY;
-    final double width;
-    final double height;
+    float x;
+    float y;
+    final float startX;
+    final float startY;
+    final float width;
+    final float height;
     final Paint paint;
     final Path path;
-    double time;
-    final double moveRange;
-    final double moveSpeed;
+    float time;
+    final float moveRange;
+    final float moveSpeed;
     final Drawable sawImage;
     final boolean drawImage;
 
 
-    public Saw(double x, double y, double width, double height, double moveRange, double moveSpeed,
+    public Saw(float x, float y, float width, float height, float moveRange, float moveSpeed,
                boolean drawImage, Drawable sawImage) {
         super(x, y, height, width);
         this.x = x;
@@ -42,10 +42,10 @@ public class Saw extends Body {
 
     public void update() {
         time += 0.05 * moveSpeed;
-        x = (startX + Math.sin(time) * moveRange);
+        x = (float) (startX + Math.sin(time) * moveRange);
     }
 
-    public void draw(Canvas canvas, double height, double width, double cameraViewX, double cameraViewY) {
+    public void draw(Canvas canvas, float height, float width, float cameraViewX, float cameraViewY) {
 
         if (drawImage) {
             sawImage.setBounds((int) ((x - this.width / 2 - cameraViewX) * width),
@@ -55,10 +55,10 @@ public class Saw extends Body {
             sawImage.draw(canvas);
         } else {
             final RectF oval = new RectF();
-            oval.set((float) ((x - this.width / 2 - cameraViewX) * width),
-                    (float) ((y - this.height / 2 - cameraViewY) * height),
-                    (float) ((x + this.width / 2 - cameraViewX) * width),
-                    (float) ((y + this.height / 2 - cameraViewY) * height));
+            oval.set(((x - this.width / 2 - cameraViewX) * width),
+                    ((y - this.height / 2 - cameraViewY) * height),
+                    ((x + this.width / 2 - cameraViewX) * width),
+                    ((y + this.height / 2 - cameraViewY) * height));
             canvas.drawArc(oval, 180, 360, true, paint);
         }
     }

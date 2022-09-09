@@ -6,7 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.SurfaceHolder;
@@ -20,19 +22,20 @@ import java.util.Random;
 
 
 public abstract class GameView extends SurfaceView implements Runnable {
+    private static final int MAX_STREAMS = 5;
     Player player;
     final Context context;
     final Thread thread;
     int direction = 0;
     int score;
-    double cameraViewX = 0, cameraViewY = 0;
+    float cameraViewX = 0, cameraViewY = 0;
     boolean goJump = false;
-    final double cameraAngleX = 0.2;
-    final double cameraAngleY = 0.8;
+    final float cameraAngleX = 0.2f;
+    final float cameraAngleY = 0.8f;
     ArrayList<Platform> platforms;
     ArrayList<Spike> spikes;
     ArrayList<Saw> saws;
-    volatile double canvasHeight = 0, canvasWidth = 0;
+    volatile float canvasHeight = 0, canvasWidth = 0;
     final int FPS = 40;
     final SurfaceHolder holder;
     Finish finish;
@@ -45,21 +48,23 @@ public abstract class GameView extends SurfaceView implements Runnable {
     final Drawable sawImage;
     GameProgress gameProgress;
     Random random;
+    SoundPool sp;
 
-    MediaPlayer jumpsound1;
-    MediaPlayer jumpsound2;
-    MediaPlayer deathsound1;
-    MediaPlayer deathsound2;
-    MediaPlayer deathsound3;
-    MediaPlayer deathsound4;
-    MediaPlayer deathsound5;
+    final int j1;
+    final int j2;
+    final int d1;
+    final int d2;
+    final int d3;
+    final int d4;
+    final int d5;
+
 
     public GameView(Context context, GameProgress gp) {
         super(context);
         this.context = context;
         gameProgress = gp;
         score = 1500;
-        if (gameProgress.dangerLevel >= GameProgress.DANGER_LEVEL_FOR_SPIKES){
+        if (gameProgress.dangerLevel >= GameProgress.DANGER_LEVEL_FOR_SPIKES) {
             score = score * 2;
         }
         if (gameProgress.dangerLevel >= GameProgress.DANGER_LEVEL_FOR_SAWS) {
@@ -72,13 +77,14 @@ public abstract class GameView extends SurfaceView implements Runnable {
         spikeImage = ContextCompat.getDrawable(this.context, R.drawable.spike);
         sawImage = ContextCompat.getDrawable(this.context, R.drawable.circular_saw);
 
-        jumpsound1 = MediaPlayer.create(context, R.raw.jump1);
-        jumpsound2 = MediaPlayer.create(context, R.raw.jump2);
-        deathsound1 = MediaPlayer.create(context, R.raw.death);
-        deathsound2 = MediaPlayer.create(context, R.raw.death2);
-        deathsound3 = MediaPlayer.create(context, R.raw.death3);
-        deathsound4 = MediaPlayer.create(context, R.raw.death4);
-        deathsound5 = MediaPlayer.create(context, R.raw.death5);
+        sp = new SoundPool(MAX_STREAMS, AudioManager.STREAM_MUSIC, 0);
+        j1 = sp.load(getContext(), R.raw.jump1, 1);
+        j2 = sp.load(getContext(), R.raw.jump2, 1);
+        d1 = sp.load(getContext(), R.raw.death, 1);
+        d2 = sp.load(getContext(), R.raw.death2, 1);
+        d3 = sp.load(getContext(), R.raw.death3, 1);
+        d4 = sp.load(getContext(), R.raw.death4, 1);
+        d5 = sp.load(getContext(), R.raw.death5, 1);
 
         holder = getHolder();
 
@@ -94,12 +100,6 @@ public abstract class GameView extends SurfaceView implements Runnable {
                     thread.start();
                 }
             });
-        }
-        if (gp.levelCompleted == 5){
-            Handler mainHandler = new Handler(Looper.getMainLooper());
-            LevelActivity levelActivity = (LevelActivity) this.context;
-            Runnable myRunnable = levelActivity::maxlevelscomplete;
-            mainHandler.post(myRunnable);
         }
     }
 
@@ -125,37 +125,38 @@ public abstract class GameView extends SurfaceView implements Runnable {
 
         if (!finished && !lost) {
             if (goJump) {
-                player.jump(platforms);
+                if (player.jump(platforms)) {
+                    ArrayList<Integer> possibleJumpSounds = new ArrayList<>();
+                    if (gameProgress.soundLevel >= GameProgress.SOUND_LEVEL_FOR_JUMP_1_SOUND) {
+                        possibleJumpSounds.add(j1);
+                    }
+                    if (gameProgress.soundLevel >= GameProgress.SOUND_LEVEL_FOR_JUMP_2_SOUND) {
+                        possibleJumpSounds.add(j2);
+                    }
+                    if (possibleJumpSounds.size() >= 1) {
+                        int sound_id = random.nextInt(possibleJumpSounds.size());
+                        sp.play((possibleJumpSounds.get(sound_id)), 1, 1, 0, 0, 1);
+                    }
+                }
                 goJump = false;
-                ArrayList<MediaPlayer> possibleJumpSounds = new ArrayList<>();
-                if (gameProgress.soundLevel >= GameProgress.SOUND_LEVEL_FOR_JUMP_1_SOUND) {
-                    possibleJumpSounds.add(jumpsound1);
-                }
-                if (gameProgress.soundLevel >= GameProgress.SOUND_LEVEL_FOR_JUMP_2_SOUND) {
-                    possibleJumpSounds.add(jumpsound2);
-                }
-                if (possibleJumpSounds.size() >= 1) {
-                    int sound_id = random.nextInt(possibleJumpSounds.size());
-                    (possibleJumpSounds.get(sound_id)).start();
-                }
             }
             if (direction == 2) {
-                player.accelerate(0, 0.002);
+                player.accelerate(0, 0.002f);
             }
             if (direction == 3) {
-                player.accelerate(-0.001, 0);
+                player.accelerate(-0.001f, 0);
             }
             if (direction == 4) {
-                player.accelerate(0.001, 0);
+                player.accelerate(0.001f, 0);
             }
         }
         for (Saw saw : saws) {
             saw.update();
         }
         if (player.getX() - cameraViewX > 0.5 + cameraAngleX / 2) {
-            cameraViewX = player.getX() - (0.5 + cameraAngleX / 2);
-        } else if (player.getX() - cameraViewX < 0.5 - cameraAngleX / 2) {
-            cameraViewX = player.getX() - (0.5 - cameraAngleX / 2);
+            cameraViewX = player.getX() - (0.5f + cameraAngleX / 2);
+        } else if (player.getX() - cameraViewX < 0.5f - cameraAngleX / 2) {
+            cameraViewX = player.getX() - (0.5f - cameraAngleX / 2);
         }
         if (player.getY() - cameraViewY > 0.5 + cameraAngleY / 2) {
             cameraViewY += 0.01;
@@ -201,17 +202,17 @@ public abstract class GameView extends SurfaceView implements Runnable {
     }
 
     private void playDeathSound() {
-        double x = random.nextDouble();
+        float x = random.nextFloat();
         if (x < 0.5) {
-            deathsound1.start();
+            sp.play(d1, 1, 1, 0, 0, 1);
         } else if (x < 0.7) {
-            deathsound2.start();
+            sp.play(d2, 1, 1, 0, 0, 1);
         } else if (x < 0.9) {
-            deathsound3.start();
+            sp.play(d3, 1, 1, 0, 0, 1);
         } else if (x < 0.95) {
-            deathsound4.start();
+            sp.play(d4, 1, 1, 0, 0, 1);
         } else {
-            deathsound5.start();
+            sp.play(d5, 1, 1, 0, 0, 1);
         }
     }
 
@@ -236,16 +237,16 @@ public abstract class GameView extends SurfaceView implements Runnable {
 
             paint.setTextSize(30);
             paint.setColor(Color.BLACK);
-            canvas.drawText("Очки: " + score, 10, 25,paint);
+            canvas.drawText("Очки: " + score, 10, 25, paint);
 
             for (Platform platform : platforms) {
                 platform.draw(canvas, canvasHeight, canvasWidth, cameraViewX, cameraViewY);
             }
             for (Spike spike : spikes) {
-                spike.draw(canvas, (float) canvasHeight, (float) canvasWidth, (float) cameraViewX, (float) cameraViewY);
+                spike.draw(canvas, canvasHeight, canvasWidth, cameraViewX, cameraViewY);
             }
             for (Saw saw : saws) {
-                saw.draw(canvas, (float) canvasHeight, (float) canvasWidth, (float) cameraViewX, (float) cameraViewY);
+                saw.draw(canvas, canvasHeight, canvasWidth, cameraViewX, cameraViewY);
             }
             holder.unlockCanvasAndPost(canvas);
 

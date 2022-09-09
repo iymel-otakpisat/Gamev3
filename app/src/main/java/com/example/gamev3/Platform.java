@@ -5,12 +5,13 @@ import android.graphics.Paint;
 import android.graphics.Path;
 
 public class Platform {
-    final double x;
-    final double y;
-    final double width;
-    final double height;
+    final float x;
+    final float y;
+    final float width;
+    final float height;
     final Paint paint;
-    public Platform(double x, double y, double width, double height) {
+
+    public Platform(float x, float y, float width, float height) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -18,13 +19,13 @@ public class Platform {
         paint = new Paint();
     }
 
-    public void draw(Canvas canvas, double height, double width, double cameraViewX, double cameraViewY) {
+    public void draw(Canvas canvas, float height, float width, float cameraViewX, float cameraViewY) {
 
         canvas.drawRect(
-                (float) ((x - this.width / 2 - cameraViewX) * width),
-                (float) ((y - this.height / 2 - cameraViewY) * height),
-                (float) ((x + this.width / 2 - cameraViewX) * width),
-                (float) ((y + this.height / 2 - cameraViewY) * height), paint);
+                ((x - this.width / 2 - cameraViewX) * width),
+                ((y - this.height / 2 - cameraViewY) * height),
+                ((x + this.width / 2 - cameraViewX) * width),
+                ((y + this.height / 2 - cameraViewY) * height), paint);
 
     }
 }

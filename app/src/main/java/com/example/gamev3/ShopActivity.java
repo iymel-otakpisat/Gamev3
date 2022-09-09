@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
 
-public class ShopActivity  extends AppCompatActivity {
+public class ShopActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,7 @@ public class ShopActivity  extends AppCompatActivity {
             startLevel();
         });
     }
+
     void startLevel() {
         Intent myIntent = new Intent(ShopActivity.this, LevelActivity.class);
         ShopActivity.this.startActivity(myIntent);

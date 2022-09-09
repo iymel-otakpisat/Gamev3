@@ -7,6 +7,7 @@ import java.util.Collections;
 
 public class RecordHandler {
     final static int RECORDS_TO_HANDLE = 5;
+
     public static void updateScores(int score, SharedPreferences sp) {
         ArrayList<Integer> curRecords = getRecords(sp);
         curRecords.add(score);

@@ -6,15 +6,15 @@ import android.graphics.Paint;
 import java.util.ArrayList;
 
 public class Player {
-    double x, y;
-    final double height;
-    final double width;
-    double speedx = 0, speedy = 0;
-    final double maxSpeedX = 0.02;
+    float x, y;
+    final float height;
+    final float width;
+    float speedx = 0, speedy = 0;
+    final float maxSpeedX = 0.02f;
     final Paint paint;
-    final double eps = 1e-5;
+    final float eps = 1e-5f;
 
-    public Player(double x, double y, double width, double height) {
+    public Player(float x, float y, float width, float height) {
         this.x = x;
         this.y = y;
         this.height = height;
@@ -23,24 +23,24 @@ public class Player {
 
     }
 
-    public double getX() {
+    public float getX() {
         return x;
     }
 
-    public double getY() {
+    public float getY() {
         return y;
     }
 
-    public void setX(double x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public void setY(double y) {
+    public void setY(float y) {
         this.y = y;
     }
 
 
-    public void accelerate(double dx, double dy) {
+    public void accelerate(float dx, float dy) {
         speedx += dx;
         speedy += dy;
     }
@@ -90,13 +90,12 @@ public class Player {
     }
 
 
-
-    static double sqDist(double x1, double y1, double x2, double y2) {
+    static float sqDist(float x1, float y1, float x2, float y2) {
         return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
     }
 
-    static boolean rectTouchCircle(double rectLeft, double rectUp, double rectRight, double rectDown,
-                                   double circleX, double circleY, double circleR) {
+    static boolean rectTouchCircle(float rectLeft, float rectUp, float rectRight, float rectDown,
+                                   float circleX, float circleY, float circleR) {
         if (circleX <= rectLeft) {
             if (circleY <= rectDown) {
                 // left down
@@ -134,54 +133,54 @@ public class Player {
     }
 
     public boolean touchSaw(Saw saw) {
-        double rectLeft = x - width / 2;
-        double rectUp = y + height / 2;
-        double rectRight = x + width / 2;
-        double rectDown = y - height / 2;
-        double circleX = saw.x;
-        double circleY = saw.y;
+        float rectLeft = x - width / 2;
+        float rectUp = y + height / 2;
+        float rectRight = x + width / 2;
+        float rectDown = y - height / 2;
+        float circleX = saw.x;
+        float circleY = saw.y;
         rectLeft /= saw.width / 2;
         rectRight /= saw.width / 2;
         circleX /= saw.width / 2;
         rectUp /= saw.height / 2;
         rectDown /= saw.height / 2;
         circleY /= saw.height / 2;
-        double circleR = 1;
+        float circleR = 1;
         return rectTouchCircle(rectLeft, rectUp, rectRight, rectDown, circleX, circleY, circleR);
 
     }
 
     public boolean touchspike(Spike spike) {
 
-        if(spike.x - spike.width / 2 <= x + width / 2 &&
+        if (spike.x - spike.width / 2 <= x + width / 2 &&
                 spike.y + spike.height / 2 >= y &&
                 spike.y <= y &&
                 spike.x + spike.width / 2 >= x + width / 2) {
             return true;
         }
-        if(spike.x - spike.width / 4 <= x + width / 2 &&
+        if (spike.x - spike.width / 4 <= x + width / 2 &&
                 spike.y + spike.height >= y &&
                 spike.y + spike.height / 2 <= y &&
-                spike.x + spike.width / 4 >= x + width / 2){
+                spike.x + spike.width / 4 >= x + width / 2) {
             return true;
         }
 
-        if(spike.x - spike.width / 2 <= x - width / 2 &&
+        if (spike.x - spike.width / 2 <= x - width / 2 &&
                 spike.y + spike.height / 2 >= y &&
                 spike.y <= y &&
                 spike.x + spike.width / 2 >= x - width / 2) {
             return true;
         }
-        if(spike.x - spike.width / 4 <= x - width / 2 &&
+        if (spike.x - spike.width / 4 <= x - width / 2 &&
                 spike.y + spike.height >= y &&
                 spike.y + spike.height / 2 <= y &&
-                spike.x + spike.width / 4 >= x - width / 2){
+                spike.x + spike.width / 4 >= x - width / 2) {
             return true;
         }
         return false;
     }
 
-    public void jump(ArrayList<Platform> platforms) {
+    public boolean jump(ArrayList<Platform> platforms) {
         for (Platform p : platforms) {
             if (p.x - p.width / 2 < x + width / 2 &&
                     x - width / 2 < p.x + p.width / 2 &&
@@ -189,19 +188,20 @@ public class Player {
                     (p.y - p.height / 2 - y - height / 2 - eps / 2) < eps
 
             ) {
-                speedy = -0.05;
-                break;
+                speedy = -0.05f;
+                return true;
             }
         }
+        return false;
     }
 
 
-    public void draw(Canvas canvas, double height, double width, double cameraViewX, double cameraViewY) {
+    public void draw(Canvas canvas, float height, float width, float cameraViewX, float cameraViewY) {
         paint.setColor(0xffff0000);
-        canvas.drawRect((float) ((x - this.width / 2 - cameraViewX) * width),
-                (float) ((y - this.height / 2 - cameraViewY) * height),
-                (float) ((x + this.width / 2 - cameraViewX) * width),
-                (float) ((y + this.height / 2 - cameraViewY) * height),
+        canvas.drawRect(((x - this.width / 2 - cameraViewX) * width),
+                ((y - this.height / 2 - cameraViewY) * height),
+                ((x + this.width / 2 - cameraViewX) * width),
+                ((y + this.height / 2 - cameraViewY) * height),
                 paint);
 
     }

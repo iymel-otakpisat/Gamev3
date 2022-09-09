@@ -7,6 +7,7 @@ import android.os.IBinder;
 
 public class ShopSoundService extends Service {
     MediaPlayer player;
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -15,7 +16,7 @@ public class ShopSoundService extends Service {
     public void onCreate() {
         player = MediaPlayer.create(this, R.raw.shop);
         player.setLooping(true);
-        player.setVolume(0.4f,0.4f);
+        player.setVolume(0.4f, 0.4f);
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
